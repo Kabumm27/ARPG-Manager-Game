@@ -1,0 +1,33 @@
+Action RPG Manager
+==================
+
+DAMAGE TYPES
+==================
+    - Physical
+    - Fire
+    - Frost
+    - Lightening
+    - True Damage
+
+    
+
+PROBLEMS
+==================
+    - Single ability modifier stats
+    - Tooltip display
+    
+
+TODO
+==================
+    - Enemies / Chests / Map
+    - Spells / Spellcrafting
+    - Statistics
+    - Passive Skills
+    - Currency
+    - Save / Load function
+
+
+  === Partially implemented ===
+    - Equipment / Loot / Inventory
+    - Buffs
+    - Stats calculation / caching

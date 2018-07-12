@@ -1,0 +1,37 @@
+Ideas
+==================
+
+Components
+==================
+    - Meele, Projectile, Beam, Chain, AoE
+
+Spell types
+==================
+    - Buff / Debuff ( DoT )
+    - Aura (Buff / Debuff / Dot)
+    - Direct attack
+        - Bolt
+        - Beam
+        - Amplified weapon attack
+    - AoE attack
+        - Cone
+        - Circle
+        - Sticks to the ground (fire)
+        - Spreading
+        - Chained attack (lightning)
+    - Combos?
+
+
+
+ARPG-Spell samples
+================================
+    - 
+
+
+Spellbook Slots
+==============================
+    - Main
+    - Default
+    - Debuff / Curse
+    - Aura (Multiple?)
+    - High CD / High Damage Slot
