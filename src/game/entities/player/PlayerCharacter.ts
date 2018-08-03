@@ -9,12 +9,12 @@ import { EquipmentFactory } from "game/equipment/factory"
 import { BaseWeapon, Bow, Sword } from "game/equipment/weapons"
 import { SpellBook, SpellSlot } from "game/abilities"
 import { BasicAttack, FireBall } from "game/abilities/spells"
-import { PassivesTree } from "game/passives-tree"
+import { TalentGraph } from "game/talent-graph"
 
 
 export class PlayerCharacter extends Entity {
 	public experience: ExperienceStats;
-	public passivesTree: PassivesTree;
+	public talentGraph: TalentGraph;
 	
 	
 	public constructor(game: Game, map: Map, name: string, health: number, mana: number) {
@@ -26,7 +26,7 @@ export class PlayerCharacter extends Entity {
 		// this.spellBook.equipAbility([availableAbilities.fireBall, availableAbilities.iceBlast], SpellSlot.MainAttack);
 		this.spellBook.equipAbility([availableAbilities.fireBlast], SpellSlot.MainAttack)
 
-		this.passivesTree = new PassivesTree();
+		this.talentGraph = new TalentGraph();
 
 		this.gear.magicEquip(GearSlot.Weapon, new Sword());
 		// this.buffManager.addBuff(new BuffIncreasedFireDmg(this), new BuffIncreasedFireDmg(this));

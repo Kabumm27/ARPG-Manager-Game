@@ -9,8 +9,8 @@ export interface InventoryItemState { expanded: boolean }
 
 export class InventoryItem extends React.Component<InventoryItemProps, InventoryItemState> {
 
-    constructor() {
-        super();
+    constructor(props: InventoryItemProps) {
+        super(props);
 
         this.state = {
             expanded: true

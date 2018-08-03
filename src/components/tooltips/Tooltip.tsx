@@ -5,6 +5,7 @@ import { Equipment } from "game/equipment"
 import { GearTooltip } from "./GearTooltip"
 import { InventoryTooltip } from "./InventoryTooltip"
 import { BuffTooltip } from "./BuffTooltip"
+import { TalentTooltip } from "./TalentTooltip"
 
 
 export interface TooltipProps { game: Game }
@@ -18,8 +19,8 @@ export interface TooltipState {
 
 export class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
-    public constructor() {
-        super();
+    public constructor(props: TooltipProps) {
+        super(props);
 
         this.state = {
             elementId: "",
@@ -123,6 +124,13 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
                 if (buff) {
                     tooltip = <BuffTooltip activeBuff={buff} />
+                }
+            }
+            else if (type === "talent") {
+                const talent = player.talentGraph.getTalentById(id);
+
+                if (talent) {
+                    tooltip = <TalentTooltip talent={talent} />
                 }
             }
         }
