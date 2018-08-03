@@ -12,14 +12,12 @@ export class TalentNode {
 
     public active: boolean;
     public locked: boolean;
-    
-    public prerequisites: TalentNode[];
 
 
     public constructor(name: string, x: number, y: number, size?: string) {
+        this.id = name.toLowerCase().replace(/\W/g, '_');
         this.name = name;
-        this.id = name.toLowerCase().replace(" ", "_");
-        this.prerequisites = [];
+        this.stats = new ModifierStats();
 
         this.x = x;
         this.y = y;
@@ -27,9 +25,5 @@ export class TalentNode {
 
         this.active = false;
         this.locked = false;
-    }
-
-    public setPrerequisites(...prerequisites: TalentNode[]) {
-        this.prerequisites = prerequisites;
     }
 }

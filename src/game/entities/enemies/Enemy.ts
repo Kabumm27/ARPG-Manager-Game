@@ -7,9 +7,7 @@ import { Lootable, Loot } from "game/loot"
 import { EquipmentFactory } from "game/equipment/factory"
 
 
-export class Enemy extends Entity implements Lootable {
-	private level: number = 1;
-	
+export class Enemy extends Entity implements Lootable {	
 	
 	public constructor(game: Game, map: Map, name: string, health: number, mana: number) {
 		super(game, map, name, health, mana);
@@ -20,7 +18,7 @@ export class Enemy extends Entity implements Lootable {
 
 	
 	public calcExp() {
-		return this.level * 100;
+		return this.level.current * 100;
 	}
 
 	public getLoot() {

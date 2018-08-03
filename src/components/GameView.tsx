@@ -27,7 +27,7 @@ export class GameView extends React.Component<GameViewProps, GameViewStats> {
 
         this.state = {
             menuVisibility: {
-                showPassiveTree: true,
+                showPassiveTree: false,
                 showSkillCrafting: false,
                 showPlayerStats: false
             }

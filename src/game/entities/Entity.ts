@@ -3,10 +3,11 @@ import { Vector2 } from "game/util"
 import { Game } from "game"
 import { Map, Positionable } from "game/map"
 import { ModifierStats } from "game/stats"
-import { EntityBaseStats, CalculatedEntityStats, Timer, Gear, Inventory, BattleState } from "."
+import { EntityBaseStats, CalculatedEntityStats, Timer, Gear, Inventory, BattleState, Level } from "."
 import { BaseAbility, SpellBook, SpellSlot, AttackType } from "game/abilities"
 import { BuffManager } from "game/buffs"
 import { BaseWeapon, Fists } from "game/equipment/weapons"
+import { TalentGraph } from "../talent-graph";
 
 
 export class Entity implements Positionable {
@@ -21,6 +22,8 @@ export class Entity implements Positionable {
     
 	public pos: Vector2;
 
+	
+	public level: Level;
 	public gear: Gear;
 	public inventory: Inventory;
 	
@@ -31,6 +34,7 @@ export class Entity implements Positionable {
 
 	public buffManager: BuffManager;
 	public spellBook: SpellBook;
+	public talentGraph: TalentGraph;
 	public timer: Timer;
 	
 
@@ -44,6 +48,7 @@ export class Entity implements Positionable {
 		this.passthrough = false;
 		this.battleState = new BattleState(this);
 
+		this.level = new Level(this, [], 1);
 		this.gear = new Gear(this.game, this);
 		this.inventory = new Inventory(this.game, this);
 		
@@ -55,6 +60,7 @@ export class Entity implements Positionable {
 		this.timer = new Timer();
 		this.buffManager = new BuffManager(game, this);
 		this.spellBook = new SpellBook(game, this);
+		this.talentGraph = new TalentGraph(this);
 
 		this.map.add(this);
 
@@ -79,6 +85,7 @@ export class Entity implements Positionable {
 		modifierStats.push(this.modifierStats);
 		modifierStats.push(this.gear.cachedModifierStats);
 		modifierStats.push(this.buffManager.cachedModifierStats);
+		modifierStats.push(this.talentGraph.cachedModifierStats);
 
 		this.cachedModifierStats = ModifierStats.merge(modifierStats);
 		this.calculatedStats.calculate(this.baseStats, this.gear.cachedBaseStats, this.cachedModifierStats);
@@ -173,6 +180,10 @@ export class Entity implements Positionable {
 				this.pos.x += 1;
 			}
 		}
+	}
+
+	public onLevelUp(level: number) {
+		this.talentGraph.onLevelUp(level);
 	}
 
 	public onDeath() {

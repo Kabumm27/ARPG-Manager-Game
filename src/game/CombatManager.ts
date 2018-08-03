@@ -71,6 +71,6 @@ export class CombatManager {
     private gainExp(from: Enemy) {
         const player = this.game.player;
         const exp = from.calcExp();
-        player.experience.add(exp);
+        player.level.add(exp);
     }
 }

@@ -1,5 +1,4 @@
-import { ExperienceStats } from "."
-import { Entity, GearSlot } from "game/entities"
+import { Entity, GearSlot, Level } from "game/entities"
 import { Enemy } from "game/entities/enemies"
 import { BuffIncreasedFireDmg } from "game/buffs/buffs"
 import { Game } from "game"
@@ -12,21 +11,18 @@ import { BasicAttack, FireBall } from "game/abilities/spells"
 import { TalentGraph } from "game/talent-graph"
 
 
-export class PlayerCharacter extends Entity {
-	public experience: ExperienceStats;
-	public talentGraph: TalentGraph;
-	
+export class PlayerCharacter extends Entity {	
 	
 	public constructor(game: Game, map: Map, name: string, health: number, mana: number) {
 		super(game, map, name, health, mana);
 		
-		this.experience = new ExperienceStats([100, 500, 1000, 2000, 5000], 10);
+		// this.level = new Level(this, [100, 500, 1000, 2000, 5000], 10);
+		this.level.levelBorders = [100, 500, 1000, 2000, 5000];
+		this.level.max = 10;
 
 		const availableAbilities = this.spellBook.getAvailableAbilities();
 		// this.spellBook.equipAbility([availableAbilities.fireBall, availableAbilities.iceBlast], SpellSlot.MainAttack);
 		this.spellBook.equipAbility([availableAbilities.fireBlast], SpellSlot.MainAttack)
-
-		this.talentGraph = new TalentGraph();
 
 		this.gear.magicEquip(GearSlot.Weapon, new Sword());
 		// this.buffManager.addBuff(new BuffIncreasedFireDmg(this), new BuffIncreasedFireDmg(this));

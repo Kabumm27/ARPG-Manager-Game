@@ -9,11 +9,11 @@ export class PlayerInfo extends React.Component<PlayerInfoProps, undefined> {
     render() {
         const player = this.props.player;
         const playerStats = player.calculatedStats;
-        const playerExp = player.experience;
+        const playerExp = player.level;
         
         const healthProgress = playerStats.currentHealth / playerStats.health;
         const manaProgress = playerStats.currentMana / playerStats.mana;
-        const expIndex = Math.min(playerExp.levelBorders.length, playerExp.level) - 1;
+        const expIndex = Math.min(playerExp.levelBorders.length, playerExp.current) - 1;
         const expProgress = playerExp.currentExperience / playerExp.levelBorders[expIndex];
 
         let buffs = new Array<any>();
@@ -28,7 +28,7 @@ export class PlayerInfo extends React.Component<PlayerInfoProps, undefined> {
 
         return(
             <div className="entity-info">
-                <h3>{player.name} - Lvl {player.experience.level}</h3>
+                <h3>{player.name} - Lvl {player.level.current}</h3>
                 <ProgressBar className="health-bar" color="greenyellow" progress={healthProgress} />
                 <ProgressBar className="mana-bar" color="blue" progress={manaProgress} />
                 <ProgressBar className="exp-bar" color="yellow" progress={expProgress} />
