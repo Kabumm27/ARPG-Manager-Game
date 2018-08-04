@@ -17,8 +17,10 @@ export class PlayerCharacter extends Entity {
 		super(game, map, name, health, mana);
 		
 		// this.level = new Level(this, [100, 500, 1000, 2000, 5000], 10);
-		this.level.levelBorders = [100, 500, 1000, 2000, 5000];
-		this.level.max = 10;
+		// this.level.max = 10;
+		// this.level.levelBorders = [100, 500, 1000, 2000, 5000];
+		this.level.max = 99;
+		this.level.levelBorders = new Array<number>(this.level.max).fill(0).map((v, i) => 1000 * (1.1**i));
 
 		const availableAbilities = this.spellBook.getAvailableAbilities();
 		// this.spellBook.equipAbility([availableAbilities.fireBall, availableAbilities.iceBlast], SpellSlot.MainAttack);
