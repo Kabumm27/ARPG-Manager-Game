@@ -18,6 +18,7 @@ export interface TalentGraphViewState {
 }
 
 export class TalentGraphView extends React.Component<TalentGraphViewProps, TalentGraphViewState> {
+    private onResize: () => void;
 
     constructor(props: TalentGraphViewProps) {
         super(props);
@@ -32,8 +33,17 @@ export class TalentGraphView extends React.Component<TalentGraphViewProps, Talen
     componentDidMount() {
         const div = document.querySelector(".window.talent-graph");
 
+        this.onResize = () => {    
+            if (this.state.zoom === 0) {
+                this.setState({
+                    xOffset: div.clientWidth / 2,
+                    yOffset: div.clientHeight / 2
+                })
+            }
+        }
+
         this.onResize();
-        window.addEventListener("resize", () => this.onResize());
+        window.addEventListener("resize", this.onResize);
 
         // Movement
         let isMouseDown = false;
@@ -67,20 +77,10 @@ export class TalentGraphView extends React.Component<TalentGraphViewProps, Talen
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", () => this.onResize());
+        window.removeEventListener("resize", this.onResize);
     }
 
-    onResize() {
-        const div = document.querySelector(".window.talent-graph");
-        // console.log(div.clientHeight, div.clientWidth);
-
-        if (this.state.zoom === 0) {
-            this.setState({
-                xOffset: div.clientWidth / 2,
-                yOffset: div.clientHeight / 2
-            })
-        }
-    }
+    
 
     nodeClickHandler(e: React.MouseEvent, node: TalentNode) {
         const talentGraph = this.props.player.talentGraph;
