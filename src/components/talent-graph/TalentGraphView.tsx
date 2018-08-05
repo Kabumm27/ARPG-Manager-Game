@@ -107,13 +107,13 @@ export class TalentGraphView extends React.Component<TalentGraphViewProps, Talen
 
         const linkRenderList = new Array();
         for (const {source, target} of talentGraph.links) {
-            const key = "k_" + source.id + "_" + target.id;
+            const key = source.id + "_" + target.id;
             linkRenderList.push(<TalentLinkSvg key={key} source={source} target={target} xOffset={xOffset} yOffset={yOffset} />);
         }
 
         const nodeRenderList = new Array();
         for (const node of talentGraph.talents) {
-            nodeRenderList.push(<TalentNodeSvg key={"k_" + node.id} onClick={(e, node)=>this.nodeClickHandler(e, node)} node={node} xOffset={xOffset} yOffset={yOffset} />);
+            nodeRenderList.push(<TalentNodeSvg key={node.id} onClick={(e, node)=>this.nodeClickHandler(e, node)} node={node} xOffset={xOffset} yOffset={yOffset} />);
         }
 
         return(
@@ -133,13 +133,6 @@ export class TalentGraphView extends React.Component<TalentGraphViewProps, Talen
 
                     {linkRenderList}
                     {nodeRenderList}
-
-                    {/* <text y="15">black</text>
-                    <use x="70" y="10" xlinkHref="#Port" />
-                    <text y="35">test</text>
-                    <use x="70" y="30" xlinkHref="#Port" className="classA"/>
-                    <text y="55">blue</text>
-                    <use x="0" y="50" xlinkHref="#Port" style={{fill:'blue'}}/> */}
                 </svg>
                 
                 <div className="overlay">
