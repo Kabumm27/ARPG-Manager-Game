@@ -10,7 +10,7 @@ export class EnemyList extends React.Component<EnemyListProps, undefined> {
         const entities = this.props.entities.map((entity, i) => <EntityInfo key={i} entity={entity} />);
 
         return(
-            <div>
+            <div className={"window enemy-list"}>
                 {entities}
             </div>
         );

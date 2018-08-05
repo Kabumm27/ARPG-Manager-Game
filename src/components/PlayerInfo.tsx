@@ -27,7 +27,7 @@ export class PlayerInfo extends React.Component<PlayerInfoProps, undefined> {
         }
 
         return(
-            <div className="entity-info">
+            <div className="window player-info">
                 <h3>{player.name} - Lvl {player.level.current}</h3>
                 <ProgressBar className="health-bar" color="greenyellow" progress={healthProgress} />
                 <ProgressBar className="mana-bar" color="blue" progress={manaProgress} />

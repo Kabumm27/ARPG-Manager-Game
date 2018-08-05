@@ -14,6 +14,7 @@ import { TalentGraphView } from "./talent-graph/TalentGraphView"
 import { SkillCraftingView } from "./skill-crafting/SkillCraftingView"
 import { Tooltip } from "./tooltips/Tooltip"
 import { MenuView, MenuVisibility } from "./MenuView"
+import { CombatView } from "./CombatView";
 
 export interface GameViewProps { game: Game }
 export interface GameViewStats {
@@ -54,15 +55,14 @@ export class GameView extends React.Component<GameViewProps, GameViewStats> {
 
         return(
             <div>
-                <MapView game={game} />
-                <button onClick={() => game.tooglePause()}>Start/Stop</button>
-                <button onClick={() => game.test()}>Test</button>
+                {/* <MapView game={game} /> */}
+                <CombatView game={game} />
                 <PlayerInfo player={game.player} />
                 <EnemyList entities={game.enemyManager.enemies} />
                 <CombatLog log={game.combatManager.combatLog} />
                 <InventoryView gear={game.player.gear} inventory={game.player.inventory} />
                 <GearView gear={game.player.gear} />
-                <MenuView menuVisibility={this.state.menuVisibility} buttonHandler={v => this.menuHandler(v)} />
+                <MenuView game={game} menuVisibility={this.state.menuVisibility} buttonHandler={v => this.menuHandler(v)} />
                 <Hider visible={menuVisibility.showPlayerStats}><PlayerStatsView player={game.player} /></Hider>
                 <Hider visible={menuVisibility.showSkillCrafting}><SkillCraftingView player={game.player} /></Hider>
                 <Hider visible={menuVisibility.showPassiveTree}><TalentGraphView player={game.player} exit={() => this.closePassiveTreeHandler()} /></Hider>

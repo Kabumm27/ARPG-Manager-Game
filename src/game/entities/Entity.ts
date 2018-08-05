@@ -152,12 +152,13 @@ export class Entity implements Positionable {
 		// If still not attacked, move
 		if (!hasAttacked) {
 			if (this.pos.distance(target.pos) > range) {
-				this.timer.movementTimer += dt;
-				const movementThreshold = 100 / this.calculatedStats.movementSpeed;
-				if (this.timer.movementTimer >= movementThreshold) {
-					this.timer.movementTimer -= movementThreshold;
-					this.moveTo(target.pos.x, target.pos.y);
-				}
+				// this.timer.movementTimer += dt;
+				// const movementThreshold = 100 / this.calculatedStats.movementSpeed;
+				// if (this.timer.movementTimer >= movementThreshold) {
+				// 	this.timer.movementTimer -= movementThreshold;
+				// 	this.moveTo(target.pos.x, target.pos.y);
+				// }
+				this.moveToEntity(dt, target);
 			}
 		}
 	}
@@ -180,6 +181,16 @@ export class Entity implements Positionable {
 				this.pos.x += 1;
 			}
 		}
+	}
+
+	public moveToEntity(dt: number, entity: Entity) {
+		const movement = this.calculatedStats.movementSpeed / 1000 * dt;
+
+		const deltaX = entity.pos.x - this.pos.x;
+		const deltaY = entity.pos.y - this.pos.y;
+
+		this.pos.x += deltaX * movement;
+		this.pos.y += deltaY * movement;
 	}
 
 	public onLevelUp(level: number) {

@@ -1,7 +1,9 @@
 import * as React from "react"
+import { Game } from "game";
 
 
 export interface MenuViewProps {
+    game: Game,
     buttonHandler: (visibility: MenuVisibility) => void,
     menuVisibility: MenuVisibility
 }
@@ -26,12 +28,15 @@ export class MenuView extends React.Component<MenuViewProps, undefined> {
     }
 
     render() {
+        const game = this.props.game;
         const handler = this.props.buttonHandler;
         const mv = this.props.menuVisibility;
 
         return(
             <div className="window menu-view">
                 <ul>
+                    <li><button onClick={() => game.tooglePause()}>Start/Stop</button></li>
+                    <li><button onClick={() => game.test()}>Test</button></li>
                     <li><button onClick={() => handler({...mv, showPassiveTree: !mv.showPlayerStats})}>Talents</button></li>
                     <li><button onClick={() => handler({...mv, showPlayerStats: !mv.showPlayerStats})}>Stats</button></li>
                 </ul>

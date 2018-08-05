@@ -76,6 +76,38 @@ td {
     background-color: #e5e5e5;
 }
 
+/** === PLAYER INFO ===
+*************************/
+.window.player-info {
+    left: 10px;
+    bottom: 10px;
+
+    width: 170px;
+}
+
+
+/** === ENEMY LIST ===
+************************/
+.window.enemy-list {
+    left: 340px;
+    bottom: 10px;
+}
+
+/** === COMBAT LOG ===
+************************/
+.window.combat-log {
+    left: 10px;
+    bottom: 140px;
+}
+
+
+/** === COMBAT VIEW ===
+*************************/
+.window.combat-view {
+    border: 1px solid black;
+}
+
+
 /** === GEAR ===
 ******************/
 .window.gear-view {

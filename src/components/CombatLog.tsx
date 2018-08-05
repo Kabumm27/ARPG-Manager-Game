@@ -14,7 +14,7 @@ export class CombatLog extends React.Component<CombatLogProps, undefined> {
         const entries = this.props.log.map((entry, i) => <div key={i}>{entry}</div>);
 
         return(
-            <div className="combat-log" ref={(el) => this.combatLog = el}>
+            <div className="window combat-log" ref={(el) => this.combatLog = el}>
                 {entries}
             </div>
         );
