@@ -100,18 +100,19 @@ export class TalentGraphView extends React.Component<TalentGraphViewProps, Talen
 
     render() {
         const player = this.props.player;
+        const talentGraph = player.talentGraph;
 
         const xOffset = this.state.xOffset;
         const yOffset = this.state.yOffset;
 
         const linkRenderList = new Array();
-        for (const {source, target} of player.talentGraph.links) {
+        for (const {source, target} of talentGraph.links) {
             const key = "k_" + source.id + "_" + target.id;
             linkRenderList.push(<TalentLinkSvg key={key} source={source} target={target} xOffset={xOffset} yOffset={yOffset} />);
         }
 
         const nodeRenderList = new Array();
-        for (const node of player.talentGraph.talents) {
+        for (const node of talentGraph.talents) {
             nodeRenderList.push(<TalentNodeSvg key={"k_" + node.id} onClick={(e, node)=>this.nodeClickHandler(e, node)} node={node} xOffset={xOffset} yOffset={yOffset} />);
         }
 
@@ -143,6 +144,7 @@ export class TalentGraphView extends React.Component<TalentGraphViewProps, Talen
                 
                 <div className="overlay">
                     <h3>Talent Graph</h3>
+                    <div>{talentGraph.talentCounter} of {talentGraph.talentMax} talents assigned</div>
                     <button onClick={() => this.props.exit()}>X</button>
                 </div>
             </div>
