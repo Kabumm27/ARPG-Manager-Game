@@ -20,6 +20,6 @@ export class WeaponBaseStats extends EquipmentBaseStats {
         this.fireDmgMax = 0;
 
         this.atkSpd = 1;
-        this.range = 1;
+        this.range = 0.3;
     }
 }

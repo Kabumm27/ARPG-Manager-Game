@@ -24,7 +24,7 @@ export class PlayerCharacter extends Entity {
 
 		const availableAbilities = this.spellBook.getAvailableAbilities();
 		// this.spellBook.equipAbility([availableAbilities.fireBall, availableAbilities.iceBlast], SpellSlot.MainAttack);
-		this.spellBook.equipAbility([availableAbilities.fireBlast], SpellSlot.MainAttack)
+		this.spellBook.equipAbility([availableAbilities.basicAttack], SpellSlot.MainAttack)
 
 		this.gear.magicEquip(GearSlot.Weapon, new Sword());
 		// this.buffManager.addBuff(new BuffIncreasedFireDmg(this), new BuffIncreasedFireDmg(this));
@@ -37,7 +37,7 @@ export class PlayerCharacter extends Entity {
 		const enemies = this.game.enemyManager.enemies;
 
 		if (enemies.length > 0) {
-			const target = this.selectTarget(enemies, TargetSelection.Healthiest);
+			const target = this.selectTarget(enemies, TargetSelection.Lowest);
 			this.attackOrMove(dt, target);
 		}
 	}

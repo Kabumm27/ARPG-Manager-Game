@@ -3,6 +3,7 @@ import { Loot, Rarity, LootTypes, LootCategory } from "game/loot"
 import { ModifierStats } from "game/stats"
 
 
+// TODO: Differentiate between global and local modifier stats
 export class Equipment implements Loot {
     public name: string;
     public slot: EquipmentSlot;
