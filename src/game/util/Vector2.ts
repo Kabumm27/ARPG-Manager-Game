@@ -17,9 +17,23 @@ export class Vector2 {
     public set(x: number, y: number) {
         this.x = x;
         this.y = y;
+
+        return this;
     }
 
     public copy() {
         return new Vector2(this.x, this.y);
+    }
+
+    public rotate(deg: number, clockwise: boolean = false) {
+        const rad = deg / 180 * Math.PI;
+        
+        const rotatedX = this.x * Math.cos(rad) - this.y * Math.sin(rad);
+        const rotatedY = this.x * Math.sin(rad) + this.y * Math.cos(rad);
+
+        this.x = Math.round(rotatedX * 1000) / 1000;
+        this.y = Math.round(rotatedY * 1000) / 1000;
+        
+        return this;
     }
 }

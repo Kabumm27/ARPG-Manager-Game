@@ -203,6 +203,7 @@ export class Entity implements Positionable {
 	}
 
 	public onDestroy() {
+		this.game.rackdollManager.spawn(this.pos.copy());
 		this.map.remove(this);
 	}
 }

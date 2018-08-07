@@ -2,6 +2,12 @@ import * as React from "react"
 import { Game } from "game"
 
 
+// TODO:
+// - Ragdoll
+// - Pathfinding
+// - Animations
+// - Collision
+
 export interface CombatViewProps { game: Game }
 
 export class CombatView extends React.Component<CombatViewProps, undefined> {
@@ -25,6 +31,23 @@ export class CombatView extends React.Component<CombatViewProps, undefined> {
 
         ctx.clearRect(0, 0, map.width * this.multi, map.height * this.multi);
 
+        // Rackdolls
+        ctx.fillStyle = "tomato";
+        const activeRackdolls = this.props.game.rackdollManager.rackdolls.filter(rd => rd.active);
+        for (const rackdoll of activeRackdolls) {
+            // ctx.beginPath();
+            // ctx.arc(rackdoll.pos.x * this.multi, rackdoll.pos.y * this.multi, 5, 0, 2*Math.PI);
+            // ctx.closePath();
+            // ctx.fill();
+
+            for (const particle of rackdoll.particles) {
+                if (particle.isVisible) {
+                    ctx.fillRect(particle.pos.x * this.multi, particle.pos.y * this.multi, 3, 3);
+                }
+            }
+        }
+        
+
         // Player
         ctx.fillStyle = "black";
         ctx.beginPath();
@@ -44,9 +67,6 @@ export class CombatView extends React.Component<CombatViewProps, undefined> {
 
     render() {
         const map = this.props.game.map;
-        const playerPos = this.props.game.player.pos;
-
-        const enemies = this.props.game.enemyManager.enemies;
 
         return(
             <div className={"window combat-view"}>

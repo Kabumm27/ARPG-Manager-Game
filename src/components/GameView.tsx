@@ -14,7 +14,7 @@ import { TalentGraphView } from "./talent-graph/TalentGraphView"
 import { SkillCraftingView } from "./skill-crafting/SkillCraftingView"
 import { Tooltip } from "./tooltips/Tooltip"
 import { MenuView, MenuVisibility } from "./MenuView"
-import { CombatView } from "./CombatView";
+import { CombatView } from "./visualization/CombatView";
 
 export interface GameViewProps { game: Game }
 export interface GameViewStats {
