@@ -95,6 +95,9 @@ export class Entity implements Positionable {
 		let hasAttacked = false;
 		let tryDefaultAttack = false;
 
+		// Turn to target
+		this.dir = target.pos.copy().minus(this.pos).normalize();
+
 		// Main attack
 		const slot = SpellSlot.MainAttack;
 		const ability = this.spellBook.getAbility(slot);

@@ -49,9 +49,19 @@ export class CombatView extends React.Component<CombatViewProps, undefined> {
         
 
         // Player
+        const pos = { x: player.pos.x * this.multi, y: player.pos.y * this.multi };
+        const dir = { x: player.dir.x * this.multi, y: player.dir.y * this.multi };
+        const rotDir = { x: -1 * player.dir.y * this.multi, y: player.dir.x * this.multi };
+
         ctx.fillStyle = "black";
+
+        const angle = Math.atan2(dir.y, dir.x);
+
         ctx.beginPath();
-        ctx.arc(player.pos.x * this.multi, player.pos.y * this.multi, 5, 0, 2*Math.PI);
+        ctx.moveTo(pos.x + dir.x * 0.2, pos.y + dir.y * 0.2);
+        ctx.lineTo(pos.x - dir.x * 0.2 + rotDir.x * 0.15, pos.y - dir.y * 0.2 + rotDir.y * 0.15);
+        ctx.lineTo(pos.x - dir.x * 0.1, pos.y - dir.y * 0.1);
+        ctx.lineTo(pos.x - dir.x * 0.2 - rotDir.x * 0.15, pos.y - dir.y * 0.2 - rotDir.y * 0.15);
         ctx.closePath();
         ctx.fill();
 
