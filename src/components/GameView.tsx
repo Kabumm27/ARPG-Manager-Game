@@ -30,7 +30,10 @@ export class GameView extends React.Component<GameViewProps, GameViewStats> {
             menuVisibility: {
                 showPassiveTree: false,
                 showSkillCrafting: false,
-                showPlayerStats: false
+                showPlayerStats: false,
+                showInventory: false,
+                showGear: false,
+                showCombatLog: false
             }
         }
     }
@@ -59,9 +62,9 @@ export class GameView extends React.Component<GameViewProps, GameViewStats> {
                 <CombatView game={game} />
                 <PlayerInfo player={game.player} />
                 <EnemyList entities={game.enemyManager.enemies} />
-                <CombatLog log={game.combatManager.combatLog} />
-                <InventoryView gear={game.player.gear} inventory={game.player.inventory} />
-                <GearView gear={game.player.gear} />
+                <Hider visible={menuVisibility.showCombatLog}><CombatLog log={game.combatManager.combatLog} /></Hider>
+                <Hider visible={menuVisibility.showInventory}><InventoryView gear={game.player.gear} inventory={game.player.inventory} /></Hider>
+                <Hider visible={menuVisibility.showGear}><GearView gear={game.player.gear} /></Hider>
                 <MenuView game={game} menuVisibility={this.state.menuVisibility} buttonHandler={v => this.menuHandler(v)} />
                 <Hider visible={menuVisibility.showPlayerStats}><PlayerStatsView player={game.player} /></Hider>
                 <Hider visible={menuVisibility.showSkillCrafting}><SkillCraftingView player={game.player} /></Hider>

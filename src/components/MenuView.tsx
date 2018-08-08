@@ -11,18 +11,15 @@ export interface MenuViewProps {
 export interface MenuVisibility {
     showPassiveTree: boolean,
     showSkillCrafting: boolean,
-    showPlayerStats: boolean
+    showPlayerStats: boolean,
+    showInventory: boolean,
+    showGear: boolean,
+    showCombatLog: boolean
 }
 
 export class MenuView extends React.Component<MenuViewProps, undefined> {
-    
-    buttonPassiveTree() {
-
-    }
 
     buttonPlayerStats() {
-        // const newState = !this.props.menuVisibility.showPlayerStats;
-        // this.props.buttonHandler(Object.assign(this.props.menuVisibility, {showPlayerStats: newState}));
         const state = {...this.props.menuVisibility, showPlayerStats: !this.props.menuVisibility.showPlayerStats};
         this.props.buttonHandler({...this.props.menuVisibility, showPlayerStats: !this.props.menuVisibility.showPlayerStats})
     }
@@ -37,8 +34,11 @@ export class MenuView extends React.Component<MenuViewProps, undefined> {
                 <ul>
                     <li><button onClick={() => game.tooglePause()}>Start/Stop</button></li>
                     <li><button onClick={() => game.test()}>Test</button></li>
-                    <li><button onClick={() => handler({...mv, showPassiveTree: !mv.showPlayerStats})}>Talents</button></li>
+                    <li><button onClick={() => handler({...mv, showPassiveTree: !mv.showPassiveTree})}>Talents</button></li>
                     <li><button onClick={() => handler({...mv, showPlayerStats: !mv.showPlayerStats})}>Stats</button></li>
+                    <li><button onClick={() => handler({...mv, showInventory: !mv.showInventory})}>Inventory</button></li>
+                    <li><button onClick={() => handler({...mv, showGear: !mv.showGear})}>Equipment</button></li>
+                    <li><button onClick={() => handler({...mv, showCombatLog: !mv.showCombatLog})}>Combat Log</button></li>
                 </ul>
             </div>
         );
