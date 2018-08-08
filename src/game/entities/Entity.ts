@@ -21,7 +21,7 @@ export class Entity implements Positionable {
 	public battleState: BattleState;
     
 	public pos: Vector2;
-
+	public dir: Vector2;
 	
 	public level: Level;
 	public gear: Gear;
@@ -43,6 +43,7 @@ export class Entity implements Positionable {
 		this.map = map;
 		this.name = name;
 		this.pos = new Vector2(0, 0);
+		this.dir = new Vector2(1, 0);
 
 		this.isDead = false;
 		this.passthrough = false;
