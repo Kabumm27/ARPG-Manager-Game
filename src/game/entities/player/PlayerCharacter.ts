@@ -108,7 +108,7 @@ export class PlayerCharacter extends Entity {
 	}
 
 	private selectLowestTarget(enemies: Enemy[]) {
-		let health = 0;
+		let health = Number.MAX_VALUE;
 		let selectedEnemy: Enemy = null;
 
 		for (const enemy of enemies) {
