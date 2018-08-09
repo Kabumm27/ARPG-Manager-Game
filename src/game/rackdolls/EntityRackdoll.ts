@@ -19,7 +19,7 @@ export class EntityRackdoll extends Rackdoll {
             const rot = 360 / 30 * i;
             const dir = new Vector2(1, 0).rotate(rot);
 
-            const particle = new Particle(this.pos.copy(), rot, 4, 350, 1);
+            const particle = new Particle(this.pos.clone(), rot, 4, 350, 1);
             this.particles.push(particle);
         }
     }

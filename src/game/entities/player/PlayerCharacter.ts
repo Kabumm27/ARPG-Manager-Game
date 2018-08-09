@@ -9,16 +9,17 @@ import { BaseWeapon, Bow, Sword } from "game/equipment/weapons"
 import { SpellBook, SpellSlot } from "game/abilities"
 import { BasicAttack, FireBall } from "game/abilities/spells"
 import { TalentGraph } from "game/talent-graph"
+import { PlayerIdleAnimation } from "graphics/player/PlayerIdleAnimation";
 
 
 export class PlayerCharacter extends Entity {	
 	
 	public constructor(game: Game, map: Map, name: string, health: number, mana: number) {
 		super(game, map, name, health, mana);
+
+		this.animationState.setIdleAnimation(new PlayerIdleAnimation());
 		
-		// this.level = new Level(this, [100, 500, 1000, 2000, 5000], 10);
-		// this.level.max = 10;
-		// this.level.levelBorders = [100, 500, 1000, 2000, 5000];
+		this.baseStats.movementSpeed = 1.5;
 		this.level.max = 99;
 		this.level.levelBorders = new Array<number>(this.level.max).fill(0).map((v, i) => 1000 * (1.1**i));
 
