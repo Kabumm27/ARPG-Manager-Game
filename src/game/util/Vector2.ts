@@ -33,7 +33,7 @@ export class Vector2 {
         return this;
     }
 
-    public copy() {
+    public clone() {
         return new Vector2(this.x, this.y);
     }
 

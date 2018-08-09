@@ -4,10 +4,10 @@ import { Game } from "game"
 import { Map, Positionable } from "game/map"
 import { ModifierStats } from "game/stats"
 import { EntityBaseStats, CalculatedEntityStats, Timer, Gear, Inventory, BattleState, Level } from "."
-import { BaseAbility, SpellBook, SpellSlot, AttackType } from "game/abilities"
+import { SpellBook, SpellSlot, AttackType } from "game/abilities"
 import { BuffManager } from "game/buffs"
-import { BaseWeapon, Fists } from "game/equipment/weapons"
 import { TalentGraph } from "../talent-graph";
+import { AnimationState } from "graphics/animations"
 
 
 export class Entity implements Positionable {
@@ -19,6 +19,7 @@ export class Entity implements Positionable {
 	public passthrough: boolean;
 
 	public battleState: BattleState;
+	public animationState: AnimationState;
     
 	public pos: Vector2;
 	public dir: Vector2;
@@ -48,6 +49,7 @@ export class Entity implements Positionable {
 		this.isDead = false;
 		this.passthrough = false;
 		this.battleState = new BattleState(this);
+		this.animationState = new AnimationState(game, this);
 
 		this.level = new Level(this, [], 1);
 		this.gear = new Gear(this.game, this);
@@ -98,7 +100,7 @@ export class Entity implements Positionable {
 		let tryDefaultAttack = false;
 
 		// Turn to target
-		this.dir = target.pos.copy().minus(this.pos).normalize();
+		this.dir = target.pos.clone().minus(this.pos).normalize();
 
 		// Main attack
 		const slot = SpellSlot.MainAttack;
@@ -192,9 +194,10 @@ export class Entity implements Positionable {
 
 		const deltaX = entity.pos.x - this.pos.x;
 		const deltaY = entity.pos.y - this.pos.y;
+		const length = Math.sqrt(deltaX**2 + deltaY**2);
 
-		this.pos.x += deltaX * movement;
-		this.pos.y += deltaY * movement;
+		this.pos.x += deltaX / length * movement;
+		this.pos.y += deltaY / length * movement;
 	}
 
 	public onLevelUp(level: number) {
@@ -207,7 +210,7 @@ export class Entity implements Positionable {
 	}
 
 	public onDestroy() {
-		this.game.rackdollManager.spawn(this.pos.copy());
+		this.game.rackdollManager.spawn(this.pos.clone());
 		this.map.remove(this);
 	}
 }
