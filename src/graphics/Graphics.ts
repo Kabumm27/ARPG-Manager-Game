@@ -34,8 +34,8 @@ export class Graphics {
     }
 
 
-    public update(dt: number) {
-        this.animation.update(dt);
+    public update() {
+        this.animation.update();
     }
 
     public draw(ctx: CanvasRenderingContext2D, canvasScale: number) {

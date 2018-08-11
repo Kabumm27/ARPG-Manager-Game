@@ -28,8 +28,8 @@ export class AnimationState {
     }
 
 
-    public update(dt: number) {
-        if (this.currentAnimation) this.currentAnimation.update(dt);
+    public update() {
+        if (this.currentAnimation) this.currentAnimation.update();
     }
 
     public animationCallback(event: string, animation: BaseAnimation) {

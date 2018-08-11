@@ -8,7 +8,6 @@ import { BaseAbility, SpellBook, SpellSlot, AttackType } from "game/abilities"
 import { BuffManager } from "game/buffs"
 import { TalentGraph } from "../talent-graph";
 import { Timer } from "./Timer";
-import { AnimationState } from "graphics/animations"
 import { IDrawable } from "graphics/IDrawable";
 import { Graphics } from "graphics/Graphics";
 

@@ -1,6 +1,7 @@
 import { Vector2 } from "game/util";
 import { Keyframe } from ".";
 import { AnimationState } from "./AnimationState";
+import { Timer } from "game/entities";
 
 
 export class BaseAnimation {
@@ -36,8 +37,8 @@ export class BaseAnimation {
     }
 
 
-    public update(dt: number) {
-        this.timer += dt;
+    public update() {
+        this.timer += Timer.deltaTime;
         
         if (!this.loop && this.totalDuration / this.speed < this.timer) {
             if (!this.isFinished) this.animationState.animationCallback("finished", this);
@@ -46,7 +47,7 @@ export class BaseAnimation {
         }
         
         if (this.keyframes.length > 0) {
-            this.currentTimer += dt;
+            this.currentTimer += Timer.deltaTime;
             const delta = (this.keyframes[this.currentFrame].duration / this.speed) - this.currentTimer;
 
             if (delta <= 0) {
