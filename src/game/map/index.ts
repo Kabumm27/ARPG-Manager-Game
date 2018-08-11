@@ -1,3 +1,3 @@
 export * from "./Map"
-export * from "./Positionable"
+export * from "./IPositionable"
 export * from "./AStar"

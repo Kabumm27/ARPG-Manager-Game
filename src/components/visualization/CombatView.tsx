@@ -49,13 +49,13 @@ export class CombatView extends React.Component<CombatViewProps, undefined> {
         
 
         // Player
-        const pos = { x: player.pos.x * this.multi, y: player.pos.y * this.multi };
-        const dir = { x: player.dir.x * this.multi, y: player.dir.y * this.multi };
-        const rotDir = { x: -1 * player.dir.y * this.multi, y: player.dir.x * this.multi };
+        // const pos = { x: player.pos.x * this.multi, y: player.pos.y * this.multi };
+        // const dir = { x: player.dir.x * this.multi, y: player.dir.y * this.multi };
+        // const rotDir = { x: -1 * player.dir.y * this.multi, y: player.dir.x * this.multi };
 
         ctx.fillStyle = "black";
 
-        const angle = Math.atan2(dir.y, dir.x);
+        // const angle = Math.atan2(dir.y, dir.x);
 
         // ctx.beginPath();
         // ctx.moveTo(pos.x + dir.x * 0.2, pos.y + dir.y * 0.2);
@@ -65,14 +65,7 @@ export class CombatView extends React.Component<CombatViewProps, undefined> {
         // ctx.closePath();
         // ctx.fill();
 
-        const points = player.animationState.getPolygonPoints();
-        ctx.beginPath();
-        ctx.moveTo(points[0].x * this.multi, points[0].y * this.multi);
-        for (let i = 1; i < points.length; i++) {
-            ctx.lineTo(points[i].x * this.multi, points[i].y * this.multi);
-        }
-        ctx.closePath();
-        ctx.fill();
+        player.graphics.draw(ctx, this.multi);
 
 
         // Enemies
