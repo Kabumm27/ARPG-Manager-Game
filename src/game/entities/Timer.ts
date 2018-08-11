@@ -1,10 +1,10 @@
 
 
 export class Timer {
-    public movementTimer: number;
+    public static deltaTime: number;
+    public static deltaTimeMulti: number;
+    public static gameTime: number;
 
 
-    public constructor() {
-        this.movementTimer = 0;
-    }
+    private constructor() {}
 }

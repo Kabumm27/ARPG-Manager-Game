@@ -36,7 +36,7 @@ export class EntityRackdoll extends Rackdoll {
         }
     }
 
-    public update(dt: number) {
-        super.update(dt);
+    public update() {
+        super.update();
     }
 }

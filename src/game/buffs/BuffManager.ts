@@ -1,5 +1,5 @@
 import { Game } from "game"
-import { Entity } from "game/entities"
+import { Entity, Timer } from "game/entities"
 import { AttackType } from "game/abilities"
 import { BasicDot } from "game/abilities/spells/buffspells"
 import { BaseBuff, ActiveBuff } from "."
@@ -22,11 +22,11 @@ export class BuffManager {
         this.cachedModifierStats = new ModifierStats();
     }
 
-    public update(dt: number) {
+    public update() {
         let buffsHaveChanged = false;
 
         for (const activeBuff of this.buffs.values()) {
-            activeBuff.duration -= dt;
+            activeBuff.duration -= Timer.deltaTime;
             if (activeBuff.duration <= 0) {
                 this.buffs.delete(activeBuff.buff.id);
                 buffsHaveChanged = true;
@@ -49,7 +49,7 @@ export class BuffManager {
                     activeBuff.abilityTimer -= cooldown;
                 }
 
-                activeBuff.abilityTimer += dt;
+                activeBuff.abilityTimer += Timer.deltaTime;
             }
         }
     }

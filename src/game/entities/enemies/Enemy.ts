@@ -5,6 +5,7 @@ import { EnemyBattleState } from "."
 import { RNG } from "game/util"
 import { Lootable, Loot } from "game/loot"
 import { EquipmentFactory } from "game/equipment/factory"
+import { Timer } from "../Timer";
 
 
 export class Enemy extends Entity implements Lootable {	
@@ -31,8 +32,8 @@ export class Enemy extends Entity implements Lootable {
 		return loot;
 	}
 	
-	public update(dt: number) {
-		super.update(dt);
+	public update() {
+		super.update();
 		const player = this.game.player;
 		const battleState = this.battleState;
 
@@ -49,7 +50,7 @@ export class Enemy extends Entity implements Lootable {
 		}
 
 		if (battleState.isInBattle()) {
-			this.attackOrMove(dt, player);
+			this.attackOrMove(player);
 		}
 	}
 }

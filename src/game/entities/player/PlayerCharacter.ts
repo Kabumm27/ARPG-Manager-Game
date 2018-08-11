@@ -30,15 +30,15 @@ export class PlayerCharacter extends Entity {
 		// this.buffManager.addBuff(new BuffIncreasedFireDmg(this), new BuffIncreasedFireDmg(this));
 	}
 	
-	public update(dt: number) {
-		super.update(dt);
+	public update() {
+		super.update();
 
-		this.spellBook.update(dt);
+		this.spellBook.update();
 		const enemies = this.game.enemyManager.enemies;
 
 		if (enemies.length > 0) {
 			const target = this.selectTarget(enemies, TargetSelection.Lowest);
-			this.attackOrMove(dt, target);
+			this.attackOrMove(target);
 		}
 	}
 

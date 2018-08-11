@@ -16,7 +16,7 @@ export class BattleState {
     }
 
 
-    public update(dt: number) {
+    public update() {
         this.wasInBattle = this.inBattle;
         this.inBattle = false;
     }

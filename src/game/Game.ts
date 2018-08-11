@@ -4,6 +4,7 @@ import { EnemyManager, CombatManager } from "."
 import { EquipmentFactory } from "game/equipment/factory"
 import { RackdollManager } from "./rackdolls";
 import { Vector2 } from "./util";
+import { Timer } from "./entities";
 
 
 export class Game {
@@ -52,8 +53,12 @@ export class Game {
 		const currentTime = Date.now();
 		const deltaTime = Math.min(currentTime - this.lastUpdate, 100);
 		this.lastUpdate = currentTime;
+
+		Timer.deltaTime = deltaTime;
+		Timer.deltaTimeMulti = deltaTime / 1000;
+		Timer.gameTime += deltaTime;
 		
-		this.update(deltaTime);
+		this.update();
 		
 		// console.log("GameLoop - End");
 
@@ -67,10 +72,10 @@ export class Game {
 		
 	}
 	
-	public update(dt: number) {
-		this.enemyManager.update(dt);
-		this.player.update(dt);
-		if (this.rackdollManager.isEnabled) this.rackdollManager.update(dt);
+	public update() {
+		this.enemyManager.update();
+		this.player.update();
+		if (this.rackdollManager.isEnabled) this.rackdollManager.update();
 
 		this.tick++;
 	}

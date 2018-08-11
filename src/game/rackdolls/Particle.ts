@@ -1,4 +1,5 @@
 import { Vector2 } from "../util";
+import { Timer } from "../entities";
 
 export class Particle {
     public pos: Vector2;
@@ -26,14 +27,14 @@ export class Particle {
         this.isVisible = false;
     }
 
-    public update(dt: number) {
-        this.timeLeft -= dt;
+    public update() {
+        this.timeLeft -= Timer.deltaTime;
 
         const speedReductionPerMs = this.speed / this.timeTotal;
-        const speed = this.speed - (this.timeTotal - this.timeLeft + (dt / 2)) * speedReductionPerMs;
+        const speed = this.speed - (this.timeTotal - this.timeLeft + (Timer.deltaTime / 2)) * speedReductionPerMs;
 
         if (this.timeLeft > 0) {
-            const movement = speed / 1000 * dt;
+            const movement = speed * Timer.deltaTimeMulti;
             this.pos.x += this.dir.x * movement;
             this.pos.y += this.dir.y * movement;
         }

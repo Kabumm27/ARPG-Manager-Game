@@ -20,10 +20,10 @@ export class EnemyManager {
 		this.enemies = new Array();
 	}
 	
-	public update(dt: number) {
+	public update() {
 		for (let i = 0; i < this.enemies.length; i++) {
 			const enemy = this.enemies[i];
-			enemy.update(dt);
+			enemy.update();
 			
 			if (enemy.isDead) {
 				enemy.onDestroy();

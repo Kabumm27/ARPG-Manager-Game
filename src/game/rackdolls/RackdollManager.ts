@@ -20,11 +20,11 @@ export class RackdollManager {
         }
     }
 
-    public update(dt: number) {
+    public update() {
         for (let i = 0; i< this.rackdolls.length; i++) {
             const rackdoll = this.rackdolls[i];
             if (rackdoll.active) {
-                rackdoll.update(dt);
+                rackdoll.update();
 
                 // if (rackdoll.timeLeft <= 0) {
                 //     this.rackdolls.splice(i, 1);

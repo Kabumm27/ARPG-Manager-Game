@@ -1,5 +1,5 @@
 import { Game } from "../Game"
-import { Entity } from "../entities"
+import { Entity, Timer } from "../entities"
 import { BaseWeapon } from "../equipment/weapons"
 
 import { BaseAbility, AbilityTimer, AbilityRotation } from "."
@@ -28,19 +28,19 @@ export class SpellBook {
         this.mainAttackTimer = new AbilityTimer();
     }
 
-    public update(dt: number) {
+    public update() {
         let ability: BaseAbility;
         let threshold: number;
 
-        this.updateAbility(dt, SpellSlot.DefaultAttack, this.defaultAttackTimer);
-        this.updateAbility(dt, SpellSlot.MainAttack, this.mainAttackTimer);
+        this.updateAbility(SpellSlot.DefaultAttack, this.defaultAttackTimer);
+        this.updateAbility(SpellSlot.MainAttack, this.mainAttackTimer);
     }
 
-    private updateAbility(dt: number, slot: SpellSlot, timer: AbilityTimer) {
+    private updateAbility(slot: SpellSlot, timer: AbilityTimer) {
         const ability = this.getAbility(slot);
         if (ability) {
             const threshold = ability.calculatedStats.atkThreshold;
-            timer.add(dt, threshold);
+            timer.add(Timer.deltaTime, threshold);
         }
     }
 

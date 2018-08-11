@@ -3,11 +3,12 @@ import { Vector2 } from "game/util"
 import { Game } from "game"
 import { Map, Positionable } from "game/map"
 import { ModifierStats } from "game/stats"
-import { EntityBaseStats, CalculatedEntityStats, Timer, Gear, Inventory, BattleState, Level } from "."
+import { EntityBaseStats, CalculatedEntityStats, Gear, Inventory, BattleState, Level } from "."
 import { BaseAbility, SpellBook, SpellSlot, AttackType } from "game/abilities"
 import { BuffManager } from "game/buffs"
 import { BaseWeapon, Fists } from "game/equipment/weapons"
 import { TalentGraph } from "../talent-graph";
+import { Timer } from "./Timer";
 
 
 export class Entity implements Positionable {
@@ -35,7 +36,6 @@ export class Entity implements Positionable {
 	public buffManager: BuffManager;
 	public spellBook: SpellBook;
 	public talentGraph: TalentGraph;
-	public timer: Timer;
 	
 
 	public constructor(game: Game, map: Map, name: string, health: number, mana: number) {
@@ -57,7 +57,6 @@ export class Entity implements Positionable {
 		this.cachedModifierStats = new ModifierStats();
 		this.calculatedStats = new CalculatedEntityStats(this.baseStats, this.gear.cachedBaseStats, this.modifierStats);
 
-		this.timer = new Timer();
 		this.buffManager = new BuffManager(game, this);
 		this.spellBook = new SpellBook(game, this);
 		this.talentGraph = new TalentGraph(this);
@@ -67,18 +66,15 @@ export class Entity implements Positionable {
 		this.recalculateStats();
 	}
 	
-	public update(dt: number) {
+	public update() {
 		const stats = this.calculatedStats;
-		const secMulti = dt / 1000;
 
 		// Regeneration
-		// stats.currentMana += stats.manaReg * secMulti;
-		stats.currentMana = Math.min(stats.mana, stats.currentMana + stats.manaReg * secMulti);
-		// stats.currentHealth += stats.healthReg * secMulti;
-		stats.currentHealth = Math.min(stats.health, stats.currentHealth + stats.healthReg * secMulti);
+		stats.currentMana = Math.min(stats.mana, stats.currentMana + stats.manaReg * Timer.deltaTimeMulti);
+		stats.currentHealth = Math.min(stats.health, stats.currentHealth + stats.healthReg * Timer.deltaTimeMulti);
 
-		this.buffManager.update(dt);
-		this.battleState.update(dt);
+		this.buffManager.update();
+		this.battleState.update();
 	}
 	
 	public recalculateStats() {
@@ -94,7 +90,7 @@ export class Entity implements Positionable {
 		this.spellBook.recalculateStats();
 	}
 
-	public attackOrMove(dt: number, target: Entity) {
+	public attackOrMove(target: Entity) {
 		let hasAttacked = false;
 		let tryDefaultAttack = false;
 
@@ -160,7 +156,7 @@ export class Entity implements Positionable {
 				// 	this.timer.movementTimer -= movementThreshold;
 				// 	this.moveTo(target.pos.x, target.pos.y);
 				// }
-				this.moveToEntity(dt, target);
+				this.moveToEntity(target);
 			}
 		}
 	}
@@ -185,8 +181,8 @@ export class Entity implements Positionable {
 		}
 	}
 
-	public moveToEntity(dt: number, entity: Entity) {
-		const movement = this.calculatedStats.movementSpeed / 1000 * dt;
+	public moveToEntity(entity: Entity) {
+		const movement = this.calculatedStats.movementSpeed * Timer.deltaTimeMulti;
 
 		const deltaX = entity.pos.x - this.pos.x;
 		const deltaY = entity.pos.y - this.pos.y;
