@@ -72,8 +72,10 @@ export class Entity implements Positionable {
 		const secMulti = dt / 1000;
 
 		// Regeneration
-		stats.currentMana += stats.manaReg * secMulti;
-		stats.currentHealth += stats.healthReg * secMulti;
+		// stats.currentMana += stats.manaReg * secMulti;
+		stats.currentMana = Math.min(stats.mana, stats.currentMana + stats.manaReg * secMulti);
+		// stats.currentHealth += stats.healthReg * secMulti;
+		stats.currentHealth = Math.min(stats.health, stats.currentHealth + stats.healthReg * secMulti);
 
 		this.buffManager.update(dt);
 		this.battleState.update(dt);
