@@ -1,16 +1,17 @@
 import { Vector2 } from "game/util"
 
 import { Game } from "game"
-import { Map, Positionable } from "game/map"
+import { Map } from "game/map"
 import { ModifierStats } from "game/stats"
 import { EntityBaseStats, CalculatedEntityStats, Timer, Gear, Inventory, BattleState, Level } from "."
 import { SpellBook, SpellSlot, AttackType } from "game/abilities"
 import { BuffManager } from "game/buffs"
 import { TalentGraph } from "../talent-graph";
-import { AnimationState } from "graphics/animations"
+import { IDrawable } from "graphics/IDrawable";
+import { Graphics } from "graphics/Graphics";
 
 
-export class Entity implements Positionable {
+export class Entity implements IDrawable {
 	public game: Game;
 	public map: Map;
 	public name: string;
@@ -19,7 +20,7 @@ export class Entity implements Positionable {
 	public passthrough: boolean;
 
 	public battleState: BattleState;
-	public animationState: AnimationState;
+	public graphics: Graphics;
     
 	public pos: Vector2;
 	public dir: Vector2;
@@ -49,7 +50,7 @@ export class Entity implements Positionable {
 		this.isDead = false;
 		this.passthrough = false;
 		this.battleState = new BattleState(this);
-		this.animationState = new AnimationState(game, this);
+		this.graphics = new Graphics(this.game, this);
 
 		this.level = new Level(this, [], 1);
 		this.gear = new Gear(this.game, this);
@@ -80,6 +81,7 @@ export class Entity implements Positionable {
 
 		this.buffManager.update(dt);
 		this.battleState.update(dt);
+		this.graphics.update(dt);
 	}
 	
 	public recalculateStats() {
@@ -166,6 +168,9 @@ export class Entity implements Positionable {
 				// }
 				this.moveToEntity(dt, target);
 			}
+		}
+		else {
+			this.graphics.animation.changeAnimation("attack");
 		}
 	}
 

@@ -1,15 +1,13 @@
-import { Entity, GearSlot, Level } from "game/entities"
+import { Entity, GearSlot } from "game/entities"
 import { Enemy } from "game/entities/enemies"
 import { BuffIncreasedFireDmg } from "game/buffs/buffs"
 import { Game } from "game"
 import { Map } from "game/map"
-import { ModifierStats } from "game/stats"
-import { EquipmentFactory } from "game/equipment/factory"
 import { BaseWeapon, Bow, Sword } from "game/equipment/weapons"
 import { SpellBook, SpellSlot } from "game/abilities"
 import { BasicAttack, FireBall } from "game/abilities/spells"
-import { TalentGraph } from "game/talent-graph"
 import { PlayerIdleAnimation } from "graphics/player/PlayerIdleAnimation";
+import { PlayerAttackAnimation } from "graphics/player";
 
 
 export class PlayerCharacter extends Entity {	
@@ -17,7 +15,8 @@ export class PlayerCharacter extends Entity {
 	public constructor(game: Game, map: Map, name: string, health: number, mana: number) {
 		super(game, map, name, health, mana);
 
-		this.animationState.setIdleAnimation(new PlayerIdleAnimation());
+		this.graphics.animation.idle = new PlayerIdleAnimation(this.graphics.animation);
+		this.graphics.animation.attack = new PlayerAttackAnimation(this.graphics.animation);
 		
 		this.baseStats.movementSpeed = 1.5;
 		this.level.max = 99;

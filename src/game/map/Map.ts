@@ -2,13 +2,13 @@ import { Game } from "game"
 import { Vector2 } from "game/util"
 import { Entity } from "game/entities"
 import { Enemy } from "game/entities/enemies"
-import { Positionable, AStar } from "."
+import { IPositionable, AStar } from "."
 
 
 export class Map {
     public game: Game;
 
-    public objects: Positionable[];
+    public objects: IPositionable[];
 
     public width: number;
     public height: number;
@@ -28,11 +28,11 @@ export class Map {
         
     }
 
-    public add(obj: Positionable) {
+    public add(obj: IPositionable) {
         this.objects.push(obj);
     }
 
-    public remove(obj: Positionable) {
+    public remove(obj: IPositionable) {
         for (let i = 0; i < this.objects.length; i++) {
             const object = this.objects[i];
             if (object === obj) {
