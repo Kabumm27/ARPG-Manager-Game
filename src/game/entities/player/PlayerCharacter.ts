@@ -76,13 +76,13 @@ export class PlayerCharacter extends Entity {
 	}
 
 	private selectNearestTarget(enemies: Enemy[]) {
-		let dist = Number.MAX_VALUE;
+		let distance = Number.MAX_VALUE;
 		let selectedEnemy: Enemy = null;
 
 		for (const enemy of enemies) {
-			const enemyDist = this.pos.distance(enemy.pos);
-			if (enemyDist < dist) {
-				dist = enemyDist;
+			const enemyDistance = this.pos.distance(enemy.pos);
+			if (enemyDistance < distance) {
+				distance = enemyDistance;
 				selectedEnemy = enemy;
 			} 
 		}
@@ -110,14 +110,24 @@ export class PlayerCharacter extends Entity {
 	private selectLowestTarget(enemies: Enemy[]) {
 		let health = Number.MAX_VALUE;
 		let selectedEnemy: Enemy = null;
+		let distance = Number.MAX_VALUE;
 
 		for (const enemy of enemies) {
 			if (enemy.battleState.isInBattle()) {
 				const enemyHealth = enemy.calculatedStats.currentHealth;
+				const enemyDistance = this.pos.distance(enemy.pos);
 				if (enemyHealth < health) {
 					health = enemyHealth;
 					selectedEnemy = enemy;
-				} 
+					distance = enemyDistance;
+				}
+				// With equal health select closest enemy
+				else if (enemyHealth === health) {
+					if (enemyDistance < distance) {
+						selectedEnemy = enemy;
+						distance = enemyDistance;
+					}
+				}
 			}
 		}
 
