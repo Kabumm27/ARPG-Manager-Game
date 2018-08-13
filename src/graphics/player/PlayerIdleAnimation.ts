@@ -5,7 +5,7 @@ import { Vector2 } from "game/util";
 export class PlayerIdleAnimation extends BaseAnimation {
 
     public constructor(animationState: AnimationState) {
-        super(animationState);
+        super(animationState, "PlayerIdle", "idle");
         
     }
 }

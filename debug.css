@@ -76,6 +76,13 @@ td {
     background-color: #e5e5e5;
 }
 
+/** === DEBUG ===
+*******************/
+.window.debug {
+    bottom: 10px;
+    right: 10px;
+}
+
 /** === PLAYER INFO ===
 *************************/
 .window.player-info {

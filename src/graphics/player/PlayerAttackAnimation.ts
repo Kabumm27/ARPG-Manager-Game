@@ -5,20 +5,20 @@ import { Vector2 } from "game/util";
 export class PlayerAttackAnimation extends BaseAnimation {
     
     public constructor(animationState: AnimationState) {
-        super(animationState);
+        super(animationState, "PlayerAttack", "attack");
         
-        this.keyframes.push(new Keyframe([{
+        this.addKeyframe(new Keyframe([{
             target: "position-x",
             from: 0,
             to: 0.2
-        }], 100));
+        }], 50));
 
-        this.keyframes.push(new Keyframe([{
+        this.addEvent("attack-hit", 50);
+
+        this.addKeyframe(new Keyframe([{
             target: "position-x",
             from: 0.2,
             to: 0
-        }], 100));
-
-        this.totalDuration = 200;
+        }], 50));
     }
 }

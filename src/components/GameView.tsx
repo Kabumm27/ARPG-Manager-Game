@@ -15,6 +15,7 @@ import { SkillCraftingView } from "./skill-crafting/SkillCraftingView"
 import { Tooltip } from "./tooltips/Tooltip"
 import { MenuView, MenuVisibility } from "./MenuView"
 import { CombatView } from "./visualization/CombatView";
+import { DebugTextField } from "./debug/DebugTextField";
 
 export interface GameViewProps { game: Game }
 export interface GameViewStats {
@@ -59,6 +60,7 @@ export class GameView extends React.Component<GameViewProps, GameViewStats> {
         return(
             <div>
                 {/* <MapView game={game} /> */}
+                <DebugTextField game={game} />
                 <CombatView game={game} />
                 <PlayerInfo player={game.player} />
                 <EnemyList entities={game.enemyManager.enemies} />

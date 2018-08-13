@@ -1,6 +1,6 @@
 import { Vector2 } from "game/util"
-
 import { Game } from "game"
+import { Graphics, IDrawable } from "graphics/base";
 import { Map } from "game/map"
 import { ModifierStats } from "game/stats"
 import { EntityBaseStats, CalculatedEntityStats, Gear, Inventory, BattleState, Level } from "."
@@ -8,8 +8,6 @@ import { BaseAbility, SpellBook, SpellSlot, AttackType } from "game/abilities"
 import { BuffManager } from "game/buffs"
 import { TalentGraph } from "../talent-graph";
 import { Timer } from "./Timer";
-import { IDrawable } from "graphics/IDrawable";
-import { Graphics } from "graphics/Graphics";
 
 
 export class Entity implements IDrawable {
@@ -100,7 +98,8 @@ export class Entity implements IDrawable {
 		let tryDefaultAttack = false;
 
 		// Turn to target
-		this.dir = target.pos.clone().minus(this.pos).normalize();
+		// this.dir = target.pos.clone().minus(this.pos).normalize();
+		this.dir.copyFrom(target.pos).minus(this.pos).normalize();
 
 		// Main attack
 		const slot = SpellSlot.MainAttack;
@@ -113,17 +112,20 @@ export class Entity implements IDrawable {
 				if (this.spellBook.isCooledDown(slot)) {
 					if (this.spellBook.hasResources(slot)) {
 						this.spellBook.takeResources(slot);
-						this.game.combatManager.applyAbility(this, target, ability, AttackType.Primary);
+						this.graphics.animation.registerEvent("attack-hit", () => {
+							this.game.combatManager.applyAbility(this, target, ability, AttackType.Primary);
 
-						// Area of Effect
-						if (ability.baseStats.aoeRange > 0) {
-							const aoeEntities = this.map.getEnemiesInRange(target.pos.x, target.pos.y, ability.baseStats.aoeRange);
-							for (const entity of aoeEntities) {
-								if (entity !== target) {
-									this.game.combatManager.applyAbility(this, entity, ability, AttackType.Secondary);
+							// Area of Effect
+							if (ability.baseStats.aoeRange > 0) {
+								const aoeEntities = this.map.getEnemiesInRange(target.pos.x, target.pos.y, ability.baseStats.aoeRange);
+								for (const entity of aoeEntities) {
+									if (entity !== target) {
+										this.game.combatManager.applyAbility(this, entity, ability, AttackType.Secondary);
+									}
 								}
 							}
-						}
+						});
+						this.graphics.animation.changeAnimation("attack");
 
 						hasAttacked = true;
 					}
@@ -147,7 +149,11 @@ export class Entity implements IDrawable {
 					if (this.spellBook.isCooledDown(slot)) {
 						if (this.spellBook.hasResources(slot)) {
 							this.spellBook.takeResources(slot);
-							this.game.combatManager.applyAbility(this, target, ability, AttackType.Primary);
+							this.graphics.animation.registerEvent("attack-hit", () => {
+								this.game.combatManager.applyAbility(this, target, ability, AttackType.Primary);
+							});
+							this.graphics.animation.changeAnimation("attack");
+
 							hasAttacked = true;
 						}
 					}
@@ -166,9 +172,6 @@ export class Entity implements IDrawable {
 				// }
 				this.moveToEntity(target);
 			}
-		}
-		else {
-			this.graphics.animation.changeAnimation("attack");
 		}
 	}
 

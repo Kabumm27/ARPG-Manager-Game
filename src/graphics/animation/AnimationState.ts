@@ -1,30 +1,36 @@
 import { Game } from "game";
 import { BaseAnimation } from ".";
-import { IDrawable } from "../IDrawable";
+import { IDrawable } from "../base";
 import { PlayerIdleAnimation, PlayerAttackAnimation } from "../player";
 import { Vector2 } from "game/util";
-import { Graphics } from "../Graphics";
+import { PlayerSwingAnimation } from "../player/PlayerSwingAnimation";
 
+
+export interface IAnimationCallbackEvent {
+    event: string,
+    callback: ()=>void
+}
 
 export class AnimationState {
     private game: Game;
-    private graphics: Graphics;
 
     public object: IDrawable;
+    public events: IAnimationCallbackEvent[];
 
-    public idle: BaseAnimation;
-    public attack: BaseAnimation;
+    public animations: Map<string, BaseAnimation>;
+    public transitions: Map<string, Map<string, string>>;
 
-    public currentState: "idle" | "attack";
     public currentAnimation: BaseAnimation;
 
 
-    public constructor(game: Game, graphics: Graphics, object: IDrawable) {
+    public constructor(game: Game, object: IDrawable) {
         this.game = game;
-        this.graphics = graphics;
+        
         this.object = object;
-
-        // this.currentState = "idle";
+        this.events = new Array();
+        
+        this.animations = new Map();
+        this.transitions = new Map();
     }
 
 
@@ -32,36 +38,56 @@ export class AnimationState {
         if (this.currentAnimation) this.currentAnimation.update();
     }
 
+    public setAnimation(name: string, animation: BaseAnimation) {
+        this.animations.set(name, animation);
+    }
+
+    public setTransition(origin: string, trigger: string, target: string) {
+        if (!this.transitions.has(origin)) this.transitions.set(origin, new Map());
+
+        this.transitions.get(origin).set(trigger, target);
+    }
+
     public animationCallback(event: string, animation: BaseAnimation) {
-        if (animation instanceof PlayerAttackAnimation) {
-            if (event === "finished") {
-                this.changeAnimation("idle");
+        if (this.transitions.has(animation.name)) {
+            const transition = this.transitions.get(animation.name);
+            if (transition.has(event)) {
+                this.changeAnimation(transition.get(event));
+            }
+        }
+
+        for (let i = 0; i < this.events.length; i++) {
+            const ev = this.events[i];
+            if (ev.event === event) {
+                ev.callback();
+                this.events.splice(i);
+                i--;
             }
         }
     }
 
-    public changeAnimation(state: "idle" | "attack") {
-        this.currentState = state;
+    public registerEvent(event: string, cb: ()=>void) {
+        this.events.push({
+            event: event,
+            callback: cb
+        });
+    }
 
-        switch (state) {
-            case "idle":
-                this.currentAnimation = this.idle;
-                break;
-            case "attack":
-                this.currentAnimation = this.attack;
-                break;
+    public changeAnimation(animationCategory: string) {
+        if (this.animations.has(animationCategory)) {
+            this.currentAnimation = this.animations.get(animationCategory);
+
+            this.currentAnimation.reset();
+            this.animationCallback("start", this.currentAnimation);
         }
-
-        this.currentAnimation.reset();
-        this.animationCallback("start", this.currentAnimation);
     }
 
     public getTransform() {
         if (!this.currentAnimation) {
             return {
-                pos: new Vector2(0, 0),
-                rot: 0,
-                scale: 1
+                position: new Vector2(0, 0),
+                rotation: 0,
+                scale: new Vector2(1, 1)
             }
         }
 

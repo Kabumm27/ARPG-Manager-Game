@@ -6,8 +6,7 @@ import { Map } from "game/map"
 import { BaseWeapon, Bow, Sword } from "game/equipment/weapons"
 import { SpellBook, SpellSlot } from "game/abilities"
 import { BasicAttack, FireBall } from "game/abilities/spells"
-import { PlayerIdleAnimation } from "graphics/player/PlayerIdleAnimation";
-import { PlayerAttackAnimation } from "graphics/player";
+import { PlayerGraphics } from "graphics/player/PlayerGraphics";
 
 
 export class PlayerCharacter extends Entity {	
@@ -15,8 +14,7 @@ export class PlayerCharacter extends Entity {
 	public constructor(game: Game, map: Map, name: string, health: number, mana: number) {
 		super(game, map, name, health, mana);
 
-		this.graphics.animation.idle = new PlayerIdleAnimation(this.graphics.animation);
-		this.graphics.animation.attack = new PlayerAttackAnimation(this.graphics.animation);
+		this.graphics = new PlayerGraphics(game, this);
 		
 		this.baseStats.movementSpeed = 1.5;
 		this.level.max = 99;

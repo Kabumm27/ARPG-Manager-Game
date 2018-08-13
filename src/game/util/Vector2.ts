@@ -37,6 +37,13 @@ export class Vector2 {
         return new Vector2(this.x, this.y);
     }
 
+    public copyFrom(other: Vector2) {
+        this.x = other.x;
+        this.y = other.y;
+
+        return this;
+    }
+
     public rotate(deg: number, clockwise: boolean = false) {
         const rad = deg / 180 * Math.PI;
         
@@ -66,6 +73,13 @@ export class Vector2 {
     public times(multi: number) {
         this.x *= multi;
         this.y *= multi;
+
+        return this;
+    }
+
+    public nonUniformScale(scaleVector: Vector2) {
+        this.x *= scaleVector.x;
+        this.y *= scaleVector.y;
 
         return this;
     }

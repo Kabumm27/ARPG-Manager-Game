@@ -1,15 +1,13 @@
 import { Game } from "game";
-import { AnimationState, BaseAnimation } from "./animation";
-import { IDrawable } from "./IDrawable";
-import { Vector2 } from "game/util";
-import { PlayerAttackAnimation } from "./player";
+import { AnimationState } from "../animation";
+import { IDrawable, GraphicsLayer } from ".";
 
 
 export class Graphics {
     public game: Game;
     public object: IDrawable;
 
-    public layers: Vector2[][];
+    public layers: GraphicsLayer[];
 
     public animation: AnimationState;
 
@@ -17,20 +15,9 @@ export class Graphics {
         this.game = game;
         this.object = object;
 
-        this.layers = new Array<Vector2[]>();
-        // this.layers.push(new Array<Vector2>());
+        this.layers = new Array<GraphicsLayer>();
 
-        // Debug code - Player arrow
-        const playerCharaterVector = [
-            new Vector2(0.2, 0),
-            new Vector2(-0.2, 0.15),
-            new Vector2(-0.1, 0),
-            new Vector2(-0.2, -0.15)
-        ]
-
-        this.layers.push(playerCharaterVector);
-
-        this.animation = new AnimationState(game, this, object);
+        this.animation = new AnimationState(game, object);
     }
 
 
@@ -42,19 +29,19 @@ export class Graphics {
         const pos = this.object.pos;
         const dir = this.object.dir;
         const angle = Math.atan2(dir.y, dir.x) * 180 / Math.PI;
-
         
-        ctx.fillStyle = "black";
+        const animationTransform = this.animation.getTransform();
 
         for (const layer of this.layers) {
-            const animationTransform = this.animation.getTransform();
+            if (!layer.visible) continue;
 
-            const transformedPoints = layer.map(v => 
+            ctx.fillStyle = layer.color;
+            const transformedPoints = layer.points.map(v => 
                 v.clone()
                 // CHECK: animation rotation here?
-                .add(animationTransform.pos)
-                .rotate(angle + animationTransform.rot)
-                .times(animationTransform.scale)
+                .add(animationTransform.position)
+                .rotate(angle + animationTransform.rotation)
+                .nonUniformScale(animationTransform.scale)
                 .add(pos)
                 .times(canvasScale));
 
