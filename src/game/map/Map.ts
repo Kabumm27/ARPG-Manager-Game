@@ -3,12 +3,15 @@ import { Vector2 } from "game/util"
 import { Entity } from "game/entities"
 import { Enemy } from "game/entities/enemies"
 import { IPositionable, AStar } from "."
+import { Obstacle } from "./Obstacle";
+import { RNG } from "../util/RNG_backup";
 
 
 export class Map {
     public game: Game;
 
     public objects: IPositionable[];
+    public obstacles: Obstacle[];
 
     public width: number;
     public height: number;
@@ -20,8 +23,19 @@ export class Map {
         this.height = height;
 
         this.objects = new Array();
+        this.obstacles = new Array();
 
-        AStar.test();
+        const rng = new RNG();
+        for (let i = 0; i < 10; i++) {
+            const pos = new Vector2();
+            pos.x = rng.randomRangeInt(0, this.width);
+            pos.y = rng.randomRangeInt(0, this.height);
+            const size = rng.randomRangeInt(10, 30);
+            const obstacle = new Obstacle(game, this, pos, size)
+            this.obstacles.push(obstacle);
+        }
+
+        // AStar.test();
     }
 
     public getNeighbours(x: number, y: number) {
@@ -44,7 +58,7 @@ export class Map {
 
     public isPositionFree(x: number, y: number) {
         for (const obj of this.objects) {
-            if (obj.passthrough && obj.pos.x === x && obj.pos.y === y) {
+            if (obj.pos.x === x && obj.pos.y === y) {
                 return false;
             }
         }
@@ -52,12 +66,16 @@ export class Map {
         return true;
     }
 
+    // public getObstacles() {
+    //     return this.objects.filter(obj => obj instanceof Obstacle);
+    // }
+
     public getEntitisInRange(x: number, y: number, r: number) {
         const position = new Vector2(x, y);
         const entities = new Array<Entity>();
         
         for (const object of this.objects) {
-            if (!object.passthrough && position.distance(object.pos) <= r) {
+            if (position.distance(object.pos) <= r) {
                 if (object instanceof Entity) {
                     entities.push(object);
                 }

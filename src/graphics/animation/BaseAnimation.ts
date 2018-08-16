@@ -15,7 +15,7 @@ export class BaseAnimation {
     private animationState: AnimationState;
 
     public name: string;
-    public category: string;
+    public slot: string;
     public tags: string[];
 
     public keyframes: Keyframe[];
@@ -36,7 +36,7 @@ export class BaseAnimation {
         this.animationState = animationState;
 
         this.name = name;
-        this.category = category;
+        this.slot = category;
 
         this.keyframes = new Array();
         this.events = new Array();

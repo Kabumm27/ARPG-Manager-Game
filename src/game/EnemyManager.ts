@@ -36,8 +36,8 @@ export class EnemyManager {
 			const enemy = new Enemy(this.game, this.map, "Monster", 10, 0);
 			let x, y;
 			do {
-				x = this.rng.randomRangeInt(0, 9);
-				y = this.rng.randomRangeInt(0, 9);
+				x = this.rng.randomRangeInt(0, this.map.width - 1);
+				y = this.rng.randomRangeInt(0, this.map.height - 1);
 			} while (!this.map.isPositionFree(x, y));
 			enemy.pos.set(x, y);
 			this.enemies.push(enemy);

@@ -1,14 +1,14 @@
 import { Map } from "game/map"
 import { PlayerCharacter } from "game/entities/player"
 import { EnemyManager, CombatManager } from "."
-import { EquipmentFactory } from "game/equipment/factory"
 import { RackdollManager } from "./rackdolls";
-import { Vector2 } from "./util";
 import { Timer } from "./entities";
+import { Camera } from "graphics/camera/Camera";
 
 
 export class Game {
 	public map: Map;
+	public camera: Camera;
 	public player: PlayerCharacter;
 	public enemyManager: EnemyManager;
 	public combatManager: CombatManager;
@@ -23,10 +23,11 @@ export class Game {
 
 	
 	public constructor() {
-		this.map = new Map(this, 10, 10);
+		this.map = new Map(this, 800, 450);
 		this.enemyManager = new EnemyManager(this, this.map);
 		this.combatManager = new CombatManager(this);
 		this.player = new PlayerCharacter(this, this.map, "Player", 100, 100);
+		this.camera = new Camera(this, this.player);
 
 		this.rackdollManager = new RackdollManager(this);
 

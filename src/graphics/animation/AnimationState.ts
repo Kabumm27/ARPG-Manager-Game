@@ -49,8 +49,8 @@ export class AnimationState {
     }
 
     public animationCallback(event: string, animation: BaseAnimation) {
-        if (this.transitions.has(animation.name)) {
-            const transition = this.transitions.get(animation.name);
+        if (this.transitions.has(animation.slot)) {
+            const transition = this.transitions.get(animation.slot);
             if (transition.has(event)) {
                 this.changeAnimation(transition.get(event));
             }
@@ -73,9 +73,9 @@ export class AnimationState {
         });
     }
 
-    public changeAnimation(animationCategory: string) {
-        if (this.animations.has(animationCategory)) {
-            this.currentAnimation = this.animations.get(animationCategory);
+    public changeAnimation(animationSlot: string) {
+        if (this.animations.has(animationSlot)) {
+            this.currentAnimation = this.animations.get(animationSlot);
 
             this.currentAnimation.reset();
             this.animationCallback("start", this.currentAnimation);

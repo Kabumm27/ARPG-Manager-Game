@@ -16,13 +16,13 @@ export class Entity implements IDrawable {
 	public name: string;
 
 	public isDead: boolean;
-	public passthrough: boolean;
 
 	public battleState: BattleState;
 	public graphics: Graphics;
     
 	public pos: Vector2;
 	public dir: Vector2;
+	public collisionRadius: number;
 	
 	public level: Level;
 	public gear: Gear;
@@ -42,11 +42,12 @@ export class Entity implements IDrawable {
 		this.game = game;
 		this.map = map;
 		this.name = name;
+
 		this.pos = new Vector2(0, 0);
 		this.dir = new Vector2(1, 0);
+		this.collisionRadius = 7;
 
 		this.isDead = false;
-		this.passthrough = false;
 		this.battleState = new BattleState(this);
 		this.graphics = new Graphics(this.game, this);
 
@@ -104,11 +105,12 @@ export class Entity implements IDrawable {
 		// Main attack
 		const slot = SpellSlot.MainAttack;
 		const ability = this.spellBook.getAbility(slot);
+		const targetDistance = this.pos.distance(target.pos) - (this.collisionRadius + target.collisionRadius);
 		let range;
 		
 		if (ability) {
 			range = ability.calculatedStats.range;
-			if (this.pos.distance(target.pos) <= range) {
+			if (targetDistance <= range) {
 				if (this.spellBook.isCooledDown(slot)) {
 					if (this.spellBook.hasResources(slot)) {
 						this.spellBook.takeResources(slot);
@@ -145,7 +147,7 @@ export class Entity implements IDrawable {
 			const ability = this.spellBook.getAbility(slot);
 			if (ability) {
 				range = ability.calculatedStats.range; // update range for default attack
-				if (this.pos.distance(target.pos) <= range) {
+				if (targetDistance <= range) {
 					if (this.spellBook.isCooledDown(slot)) {
 						if (this.spellBook.hasResources(slot)) {
 							this.spellBook.takeResources(slot);
@@ -163,7 +165,7 @@ export class Entity implements IDrawable {
 
 		// If still not attacked, move
 		if (!hasAttacked) {
-			if (this.pos.distance(target.pos) > range) {
+			if (targetDistance > range) {
 				// this.timer.movementTimer += dt;
 				// const movementThreshold = 100 / this.calculatedStats.movementSpeed;
 				// if (this.timer.movementTimer >= movementThreshold) {
@@ -196,7 +198,7 @@ export class Entity implements IDrawable {
 	}
 
 	public moveToEntity(entity: Entity) {
-		const movement = this.calculatedStats.movementSpeed * Timer.deltaTimeMulti;
+		const movement = this.calculatedStats.movementSpeed * Timer.deltaTime / 30;
 
 		const deltaX = entity.pos.x - this.pos.x;
 		const deltaY = entity.pos.y - this.pos.y;
@@ -212,7 +214,7 @@ export class Entity implements IDrawable {
 
 	public onDeath() {
 		this.isDead = true;
-		this.passthrough = true;
+		this.collisionRadius = 0; // Needed?
 	}
 
 	public onDestroy() {

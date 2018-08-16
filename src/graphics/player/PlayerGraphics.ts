@@ -15,27 +15,29 @@ export class PlayerGraphics extends Graphics {
 
         // Animations
         const idle = new PlayerIdleAnimation(this.animation);
-        this.animation.setAnimation(idle.category, idle);
+        this.animation.setAnimation(idle.slot, idle);
         const attack = new PlayerAttackAnimation(this.animation);
-        this.animation.setAnimation(attack.category, attack);
+        this.animation.setAnimation(attack.slot, attack);
 
         // Transitions
-        this.animation.setTransition(attack.category, "finished", idle.category);
+        this.animation.setTransition(attack.slot, "finished", idle.slot);
 
         // Graphics
         this.layers.push(new GraphicsLayer([
-            new Vector2(0.2, 0),
-            new Vector2(-0.2, 0.15),
-            new Vector2(-0.1, 0),
-            new Vector2(-0.2, -0.15)
+            new Vector2(8, 0),
+            new Vector2(-8, 6),
+            new Vector2(-4, 0),
+            new Vector2(-8, -6)
         ], "black"));
 
         // Layer 1 - Weapon
         this.layers.push(new GraphicsLayer([
-            new Vector2(0.25, 0),
-            new Vector2(0.1, 0.08),
-            new Vector2(0.1, -0.08)
+            new Vector2(10, 0),
+            new Vector2(4, 3.2),
+            new Vector2(4, -3.2)
         ], "DodgerBlue"));
+
+        this.animation.changeAnimation(idle.slot);
     }
 
     public update() {

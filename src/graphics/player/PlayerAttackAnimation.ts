@@ -10,14 +10,14 @@ export class PlayerAttackAnimation extends BaseAnimation {
         this.addKeyframe(new Keyframe([{
             target: "position-x",
             from: 0,
-            to: 0.2
+            to: 8
         }], 50));
 
         this.addEvent("attack-hit", 50);
 
         this.addKeyframe(new Keyframe([{
             target: "position-x",
-            from: 0.2,
+            from: 8,
             to: 0
         }], 50));
     }

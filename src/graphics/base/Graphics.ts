@@ -1,6 +1,8 @@
 import { Game } from "game";
 import { AnimationState } from "../animation";
 import { IDrawable, GraphicsLayer } from ".";
+import { CameraOffset } from "../camera/Camera";
+import { Vector2 } from "game/util";
 
 
 export class Graphics {
@@ -25,7 +27,7 @@ export class Graphics {
         this.animation.update();
     }
 
-    public draw(ctx: CanvasRenderingContext2D, canvasScale: number) {
+    public draw(ctx: CanvasRenderingContext2D, cameraOffset: CameraOffset) {
         const pos = this.object.pos;
         const dir = this.object.dir;
         const angle = Math.atan2(dir.y, dir.x) * 180 / Math.PI;
@@ -43,7 +45,9 @@ export class Graphics {
                 .rotate(angle + animationTransform.rotation)
                 .nonUniformScale(animationTransform.scale)
                 .add(pos)
-                .times(canvasScale));
+                .minus(new Vector2(cameraOffset.left, cameraOffset.top))
+                .times(cameraOffset.scale)
+            );
 
             ctx.beginPath();
             ctx.moveTo(transformedPoints[0].x, transformedPoints[0].y);
